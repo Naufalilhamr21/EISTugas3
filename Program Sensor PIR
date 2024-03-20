@@ -1,0 +1,31 @@
+// Deklarasi pin
+const int pirPin = 7;      // Pin sensor PIR terhubung ke pin digital 7
+const int ledPinGreen = 13; // Pin LED hijau terhubung ke pin digital 13
+const int ledPinRed = 3;   // Pin LED merah terhubung ke pin digital 3
+const int buzzerPin = 2;   // Pin buzzer terhubung ke pin digital 2
+
+void setup() {
+  pinMode(pirPin, INPUT);      // Mengatur pin sensor PIR sebagai input
+  pinMode(ledPinGreen, OUTPUT); // Mengatur pin LED hijau sebagai output
+  pinMode(ledPinRed, OUTPUT);   // Mengatur pin LED merah sebagai output
+  pinMode(buzzerPin, OUTPUT);   // Mengatur pin buzzer sebagai output
+  Serial.begin(9600);          // Memulai komunikasi serial dengan baud rate 9600
+}
+
+void loop() {
+  int pirState = digitalRead(pirPin); // Membaca status sensor PIR
+
+  if (pirState == HIGH) { // Jika sensor PIR mendeteksi pergerakan
+    digitalWrite(ledPinGreen, HIGH); // Nyalakan LED hijau
+    digitalWrite(ledPinRed, LOW);    // Matikan LED merah
+    tone(buzzerPin, HIGH);  // Bunyikan buzzer
+    Serial.println("Gerakan terdeteksi!"); // Tulis pesan ke serial monitor
+    delay(1500); // Tunda selama 1,5 detik
+  } else {
+    digitalWrite(ledPinGreen, LOW);  // Matikan LED hijau
+    digitalWrite(ledPinRed, HIGH);   // Nyalakan LED merah
+    noTone(buzzerPin); // Matikan buzzer jika tidak ada gerakan
+    Serial.println("Gerakan tidak terdeteksi"); // Tulis pesan ke serial monitor
+    delay(1500); // Tunda selama 1,5 detik
+  }
+}
